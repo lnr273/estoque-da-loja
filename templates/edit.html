@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Estoque
+{% endblock %}
+
+{% block main %}
+    <div class="formProduto">
+        <form action="/edit" method="post">
+            <input type="hidden" value="{{ produto[0] }}" name="id">
+            <input class="input" autocomplete="off" autocapitalize="on" type="text" required value="{{ produto[1] }}" placeholder="Nome" name="nome" autofocus>
+            <input class="input" autocomplete="off" type="number" required value="{{ produto[2] }}" placeholder="Quantidade" name="quantidade">
+            <input class="input" autocomplete="off" type="number" required value="{{ produto[3] }}" placeholder="Valor" name="valor">
+            <button class="button white" type="submit">Editar produto</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Estoque
+{% endblock %}
+
+{% block main %}
+    <div class="formProduto">
+        <form action="/add" method="post">
+            <input class="input" autocomplete="off" autocapitalize="on" type="text" required placeholder="Nome" name="nome" autofocus>
+            <input class="input" autocomplete="off" type="number" required placeholder="Quantidade" name="quantidade">
+            <input class="input" autocomplete="off" type="number" required placeholder="Valor" name="valor">
+            <button class="button white" type="submit">Adicionar produto ao estoque</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/index.css">
+    <link rel="stylesheet" href="static/home.css">
+    <link rel="stylesheet" href="static/add.css">
+    <title>
+        {% block title %}
+            
+        {% endblock %}
+    </title>
+</head>
+<body>
+    <header class="header">
+        <h4>
+            <a class="links" href="/">Ver produtos</a>
+        </h4>
+        <h2>Estoque da Loja</h2>
+        <h4>
+            <a class="links" href="/add">Add Produto</a>
+        </h4>
+    </header>
+
+    <main class="main">
+        {% block main %}
+
+        {% endblock %}
+    </main>
+    
+    <footer class="footer">
+        Desenvolvido por Luan &copy;
+    </footer>
+</body>
+</html>

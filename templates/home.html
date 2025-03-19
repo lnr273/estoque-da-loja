@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Estoque
+{% endblock %}
+
+{% block main %}
+    <table class="tableProdutos">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto[1] }}</td>
+                    <td>{{ produto[2] }}</td>
+                    <td>{{ produto[3] }}</td>
+                    <td>
+                        <form action="/delete" method="get">
+                            <input type="hidden" value="{{ produto[0] }}" name="id">
+                            <button class="icon" type="submit">
+                                <img src="static/images/delete.png" alt="ícone de X para deletar">
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/edit" method="get">
+                            <input type="hidden" value="{{ produto[0] }}" name="id">
+                            <button class="icon" type="submit">
+                                <img src="static/images/edit.png" alt="ícone de lápis para editar">
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="addNovo">
+        <a href="/add">
+            <button class="button black" type="submit">Adicionar novo produto</button>
+        </a>
+    </div>
+{% endblock %}
