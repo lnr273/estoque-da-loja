@@ -1,0 +1,35 @@
+.tableProdutos {
+    width: 100%;
+    max-width: 80%;
+    margin-block: 20px;
+    margin-inline: auto;
+    border-collapse: collapse;
+    border: 2px solid #ccc;
+}
+
+.tableProdutos tr {
+    height: 40px;
+}
+
+.tableProdutos tr:nth-child(even) {
+    background-color: #ccc;
+}
+.tableProdutos tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.tableProdutos td {
+    text-align: center;
+}
+
+.tableProdutos th {
+    background-color: #ccc;
+    height: 30px;
+    position: sticky;
+    top: 0;
+}
+
+.addNovo {
+    display: flex;
+    justify-content: center;
+}

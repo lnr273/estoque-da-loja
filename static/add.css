@@ -1,0 +1,14 @@
+.formProduto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block: 10%;
+}
+
+.formProduto form {
+    display: flex;
+    flex-direction: column;
+    background-color: #333;
+    padding-inline: 200px;
+    padding-block: 100px;
+}
