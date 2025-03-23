@@ -1,3 +1,4 @@
+/* reset */
 html, body {
     margin: 0;
     padding: 0;
@@ -12,6 +13,7 @@ h1, h2, h3, h4, h5 {
     margin: 0;
 }
 
+/* header, main and footer */
 .header, .footer {
     width: 100%;
     background-color: #333;
@@ -31,9 +33,11 @@ h1, h2, h3, h4, h5 {
 
 .main {
     height: 100%;
-    padding-block: 40px;
+    padding-block: 20px;
+    text-align: center;
 }
 
+/* header links */
 .links
 {
     padding-inline: 30px;
@@ -46,10 +50,12 @@ h1, h2, h3, h4, h5 {
     text-decoration: underline;
 }
 
+/* inputs */
 .input {
     width: 300px;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 13px;
+    border-radius: 10px;
     border: none;
     background-color: #fff;
     border: 1px solid #333;
@@ -60,9 +66,12 @@ h1, h2, h3, h4, h5 {
     background-color: #eee;
 }
 
+/* buttons */
 .button {
+    width: 326px;
+    border-radius: 10px;
     margin-block: 5px;
-    padding: 10px;
+    padding: 15px;
     border: none;
     cursor: pointer;
     transition: all 0.5s ease;
@@ -84,6 +93,7 @@ h1, h2, h3, h4, h5 {
     background-color: #555;
 }
 
+/* icons */
 .icon {
     border: 0;
     background-color: transparent;
@@ -91,4 +101,14 @@ h1, h2, h3, h4, h5 {
 .icon img {
     height: 17px;
     cursor: pointer;
+}
+
+/* flash message */
+.flashes {
+    list-style-type: none;
+    background-color: rgb(170, 214, 255);
+    text-align: center;
+    font-size: 1.3rem;
+    padding-block: 10px;
+    margin: 0;
 }
