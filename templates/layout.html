@@ -15,14 +15,22 @@
 <body>
     <header class="header">
         <h4>
-            <a class="links" href="/">Ver produtos</a>
+            <a class="links" href="/">Ver Produtos</a>
         </h4>
         <h2>Estoque da Loja</h2>
         <h4>
             <a class="links" href="/add">Add Produto</a>
         </h4>
     </header>
-
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
     <main class="main">
         {% block main %}
 
@@ -30,7 +38,8 @@
     </main>
     
     <footer class="footer">
-        Desenvolvido por Luan &copy;
+        Desenvolvido por Luan &copy; 2025
     </footer>
+    <script src="static/deleteModal.js"></script>
 </body>
 </html>
