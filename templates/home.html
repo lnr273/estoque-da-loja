@@ -5,6 +5,22 @@
 {% endblock %}
 
 {% block main %}
+    <h1>Tabela dos Produtos</h1>
+
+    <select name="order" class="select" form="orderTable">
+        <option value="recente">Recente</option>
+        <option value="asc">Valor: Crescente</option>
+        <option value="desc">Valor: Decrescente</option>
+        <option value="a-z">Nome: A-Z</option>
+        <option value="z-a">Nome: Z-A</option>
+        <option value="more-quant">Maior Quantidade</option>
+        <option value="less-quant">Menor Quantidade</option>
+    </select>
+
+    <form action="/" id="orderTable">
+        <button type="submit" class="black selectBtn">Ordenar</button>
+    </form>
+
     <table class="tableProdutos">
         <thead>
             <tr>
@@ -22,9 +38,9 @@
                     <td>{{ produto[2] }}</td>
                     <td>{{ produto[3] }}</td>
                     <td>
-                        <form action="/delete" method="get">
+                        <form id="deleteForm" action="/delete" method="get">
                             <input type="hidden" value="{{ produto[0] }}" name="id">
-                            <button class="icon" type="submit">
+                            <button type="button" id="deleteBtn" class="icon">
                                 <img src="static/images/delete.png" alt="ícone de X para deletar">
                             </button>
                         </form>
@@ -41,6 +57,19 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="modal">
+        <h3>Tem certeza que deseja excluir esse item?</h3>
+        <div>
+            <button id="confirm" class="modalBtn" type="submit">
+                Sim
+            </button>
+            <button id="cancel" class="modalBtn" type="button">
+                Não
+            </button>
+        </div>
+    </div>
+
     <div class="addNovo">
         <a href="/add">
             <button class="button black" type="submit">Adicionar novo produto</button>
