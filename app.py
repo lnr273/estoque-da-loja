@@ -12,7 +12,7 @@ cursor = db.cursor()
 
 @app.route("/")
 def home():
-    query = "SELECT id, nome, quantidade, valor FROM produtos "
+    query = "SELECT * FROM produtos "
 
     order = request.args.get("order") or "recente"
     ordering = {"recente": " ",
@@ -35,7 +35,7 @@ def add():
         # verificar nome
         nome = request.form.get("nome")
         if not nome:
-            return render_template("error.html", message="Nome inválido")
+            return error("Nome inválido", 403)
         # verificar quantidade
         quantidade = validateInt(request.form.get("quantidade"))
         if quantidade < 1:
@@ -44,19 +44,22 @@ def add():
         valor = validateFloat(request.form.get("valor"))
         if valor < 0:
             return error("Valor inválido: deve ser maior que 0", 403)
+        categoria = request.form.get("categoria")
+        if not categoria:
+            return error("Categoria inválida", 403)
         # unir todos os dados em um tuple
-        dadosNovoProduto = (nome, quantidade, valor)
+        dadosNovoProduto = (nome.title(), quantidade, valor, categoria)
         
         # inserir no banco de dados
-        query = "INSERT INTO produtos (nome, quantidade, valor) VALUES (%s, %s, %s)"
+        query = "INSERT INTO produtos (nome, quantidade, valor, categoria) VALUES (%s, %s, %s, %s)"
         try:
             cursor.execute(query, dadosNovoProduto)
-            db.commit()
         except:
-            flash("Erro: ocorreu um erro ao adicionar o produto. Tente novamente.")
+            flash("Erro: ocorreu um erro ao adicionar o produto no banco de dados. Tente novamente.")
             db.rollback()
             return redirect("/")
             
+        db.commit()
         flash("Produto adicionado com sucesso.")
         return redirect("/")
     else:
@@ -74,12 +77,12 @@ def delete():
     query = "DELETE FROM produtos WHERE id = %s"
     try:
         cursor.execute(query, (id,))
-        db.commit()
     except:
         flash("Erro: ocorreu um erro ao excluir produto. Tente novamente.")
         db.rollback()
         return redirect("/")
     
+    db.commit()
     flash("Produto excluído com sucesso.")
     return redirect("/")
 
@@ -102,11 +105,14 @@ def edit():
         # verificar valor
         valor = validateFloat(request.form.get("valor"))
         if valor < 0:
-            return error ("Valor inválido: deve ser maior que 0", 403)
+            return error("Valor inválido: deve ser maior que 0", 403)
+        categoria = request.form.get("categoria")
+        if not categoria:
+            return error("Categoria inválida", 403)
         # união de todos os dados para a query
-        dadosProdutoEditado = (nome, quantidade, valor, id)
+        dadosProdutoEditado = (nome.title(), quantidade, valor, categoria, id)
         # editando o banco de dados
-        query = "UPDATE produtos SET nome = %s, quantidade = %s, valor = %s WHERE id = %s"
+        query = "UPDATE produtos SET nome = %s, quantidade = %s, valor = %s, categoria = %s WHERE id = %s"
         try:
             cursor.execute(query, dadosProdutoEditado)
         except:
@@ -121,10 +127,10 @@ def edit():
         # validando id 
         id = validateInt(request.args.get("id"))
         if id < 1:
-            return render_template("error.html", message="Id inválido: deve ser maior que 0")
+            return error("Id inválido: deve ser maior que 0", 403)
         
         # buscando valores atuais do produto
-        query = "SELECT id, nome, quantidade, valor FROM produtos WHERE id = %s"
+        query = "SELECT id, nome, quantidade, valor, categoria FROM produtos WHERE id = %s"
         try:
             cursor.execute(query, (id,))
         except:
@@ -134,6 +140,23 @@ def edit():
         produto = cursor.fetchall()
         return render_template("edit.html", produto=produto[0])
     
+
+@app.route("/search")
+def search():
+    q = request.args.get("q")
+    query = "SELECT * FROM produtos WHERE id = %s OR nome LIKE %s OR categoria LIKE %s"
+    if q:
+        try:
+            cursor.execute(query, (q, q, q,))
+        except:
+            flash(f'Erro: não foi possível pesquisar por "{q}"')
+            return redirect("/")
+
+        produtos = cursor.fetchall()
+        return render_template("home.html", produtos=produtos, search=q)
+
+    return redirect("/")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
