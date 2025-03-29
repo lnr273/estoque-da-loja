@@ -7,54 +7,60 @@
 {% block main %}
     <h1>Tabela dos Produtos</h1>
 
-    <select name="order" class="select" form="orderTable">
-        <option value="recente">Recente</option>
-        <option value="asc">Valor: Crescente</option>
-        <option value="desc">Valor: Decrescente</option>
-        <option value="a-z">Nome: A-Z</option>
-        <option value="z-a">Nome: Z-A</option>
-        <option value="more-quant">Maior Quantidade</option>
-        <option value="less-quant">Menor Quantidade</option>
-    </select>
-
     <form action="/" id="orderTable">
-        <button type="submit" class="black selectBtn">Ordenar</button>
+        <select name="order" class="select">
+            <option value="recente">Recente</option>
+            <option value="asc">Valor: Crescente</option>
+            <option value="desc">Valor: Decrescente</option>
+            <option value="a-z">Nome: A-Z</option>
+            <option value="z-a">Nome: Z-A</option>
+            <option value="more-quant">Maior Quantidade</option>
+            <option value="less-quant">Menor Quantidade</option>
+        </select>
+        <button type="submit" class="black smallBtn">Ordenar</button>
     </form>
 
+    {% if search %}
+        <h2>Procurando resultados com "{{ search }}"</h2>
+    {% endif %}
     <table class="tableProdutos">
         <thead>
             <tr>
                 <th>Nome</th>
                 <th>Quantidade</th>
-                <th>Valor</th>
+                <th>Valor (unidade)</th>
+                <th>Categoria</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            {% for produto in produtos %}
-                <tr>
-                    <td>{{ produto[1] }}</td>
-                    <td>{{ produto[2] }}</td>
-                    <td>{{ produto[3] }}</td>
-                    <td>
-                        <form id="deleteForm" action="/delete" method="get">
-                            <input type="hidden" value="{{ produto[0] }}" name="id">
-                            <button type="button" id="deleteBtn" class="icon">
-                                <img src="static/images/delete.png" alt="ícone de X para deletar">
-                            </button>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="/edit" method="get">
-                            <input type="hidden" value="{{ produto[0] }}" name="id">
-                            <button class="icon" type="submit">
-                                <img src="static/images/edit.png" alt="ícone de lápis para editar">
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
+            {% block table %}
+                {% for produto in produtos %}
+                    <tr>
+                        <td>{{ produto[1] }}</td>
+                        <td>{{ produto[2] }}</td>
+                        <td>{{ produto[3] }}</td>
+                        <td>{{ produto[4] }}</td>
+                        <td>
+                            <form id="deleteForm" action="/delete" method="get">
+                                <input type="hidden" value="{{ produto[0] }}" name="id">
+                                <button type="button" id="deleteBtn" class="icon">
+                                    <img src="static/images/delete.png" alt="ícone de X para deletar">
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/edit" method="get">
+                                <input type="hidden" value="{{ produto[0] }}" name="id">
+                                <button class="icon" type="submit">
+                                    <img src="static/images/edit.png" alt="ícone de lápis para editar">
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endblock %}
         </tbody>
     </table>
 
@@ -70,9 +76,7 @@
         </div>
     </div>
 
-    <div class="addNovo">
-        <a href="/add">
-            <button class="button black" type="submit">Adicionar novo produto</button>
-        </a>
-    </div>
+    <a href="/add">
+        <button class="button black" type="submit">Adicionar novo produto</button>
+    </a>
 {% endblock %}
