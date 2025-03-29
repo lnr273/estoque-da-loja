@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/index.css">
     <link rel="stylesheet" href="static/home.css">
-    <link rel="stylesheet" href="static/add.css">
     <title>
         {% block title %}
             
@@ -14,14 +13,28 @@
 </head>
 <body>
     <header class="header">
-        <h4>
-            <a class="links" href="/">Ver Produtos</a>
-        </h4>
-        <h2>Estoque da Loja</h2>
-        <h4>
-            <a class="links" href="/add">Add Produto</a>
-        </h4>
+        <h1 class="headerTitle">Estoque da Loja</h1>
+        
+        <section class="header2">
+            <a class="iconHeader" href="/">
+                <button>
+                    <img src="/static/images/home.png" alt="icone de casa indicando a página principal">
+                </button>
+            </a>
+            <a class="iconHeader" href="/add">
+                <button>
+                    <img src="/static/images/plus.png" alt="icone de + indicando a página de inserção de produto">
+                </button>
+            </a>
+            <form class="wrapper" action="/search">
+                <input type="text" class="searchInput input" name="q" placeholder="Procure por ID, nome ou categoria" required>
+                <button type="submit" class="icon">
+                    <img src="static/images/search.png" alt="icone de lupa para pesquisar">
+                </button>
+            </form>
+        </section>
     </header>
+
     {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul class="flashes">
@@ -31,6 +44,7 @@
         </ul>
         {% endif %}
     {% endwith %}
+
     <main class="main">
         {% block main %}
 
