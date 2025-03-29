@@ -9,10 +9,6 @@ html, body {
     height: 100%;
 }
 
-h1, h2, h3, h4, h5 {
-    margin: 0;
-}
-
 /* header, main and footer */
 .header, .footer {
     width: 100%;
@@ -24,7 +20,13 @@ h1, h2, h3, h4, h5 {
 }
 
 .header {
-    height: 65px;
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+}
+.header2 {
+    display: flex;
+    justify-content: center;
 }
 
 .footer {
@@ -37,17 +39,29 @@ h1, h2, h3, h4, h5 {
     text-align: center;
 }
 
-/* header links */
-.links
-{
-    padding-inline: 30px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: normal;
+/* .headerTitle {
+    margin: 0;
+} */
+
+/* form block */
+.formProduto {
+    width: 50%;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
 }
-.links:hover
-{
-    text-decoration: underline;
+
+.formProduto form {
+    width: 600px;
+    height: 400px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: auto;
+    background-color: #333;
+    box-shadow: 5px 5px 10px #555;
 }
 
 /* inputs */
@@ -66,6 +80,27 @@ h1, h2, h3, h4, h5 {
     background-color: #eee;
 }
 
+.searchInput {
+    border-radius: 5px;
+}
+
+/* wrapper */
+.wrapper {
+    position: relative;
+    display: inline-block;
+}
+.wrapper input {
+    width: 220px;
+    padding: 8px;
+    padding-right: 20px;
+    margin: 0;
+}
+.wrapper button {
+    position: absolute;
+    top: 5px;
+    right:5px;
+}
+
 /* buttons */
 .button {
     width: 326px;
@@ -75,6 +110,7 @@ h1, h2, h3, h4, h5 {
     border: none;
     cursor: pointer;
     transition: all 0.5s ease;
+    font-weight: bold;
 }
 
 .white {
@@ -93,14 +129,42 @@ h1, h2, h3, h4, h5 {
     background-color: #555;
 }
 
+.smallBtn {
+    padding: 10px;
+    width: 120px;
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
 /* icons */
 .icon {
     border: 0;
     background-color: transparent;
 }
 .icon img {
-    height: 17px;
+    height: 20px;
     cursor: pointer;
+}
+
+/* header icons */
+.iconHeader button {
+    background-color: #ccc;
+    border: 0;
+    border-radius: 5px;
+    height: 35px;
+    width: 35px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.iconHeader img {
+    height: 20px;
 }
 
 /* flash message */
@@ -111,4 +175,18 @@ h1, h2, h3, h4, h5 {
     font-size: 1.3rem;
     padding-block: 10px;
     margin: 0;
+}
+
+/* select */
+.select {
+    width: 330px;
+    padding: 13px;
+    border-radius: 5px;
+    margin-block: 10px;
+}
+
+/* titles */
+h1, h2 {
+    margin-block: 10px 20px;
+    margin-inline: 10px;
 }
