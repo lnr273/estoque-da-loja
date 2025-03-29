@@ -5,12 +5,20 @@
 {% endblock %}
 
 {% block main %}
+    <h1>Adicionar produto ao estoque</h1>
     <div class="formProduto">
-        <h1>Adicionar produto ao estoque</h1>
         <form action="/add" method="post">
-            <input class="input" autocomplete="off" autocapitalize="on" type="text" required placeholder="Nome" name="nome" autofocus>
+            <input class="input" autocomplete="off" autocapitalize="sentence" type="text" required placeholder="Nome" name="nome" autofocus>
             <input class="input" autocomplete="off" type="number" required min="1" placeholder="Quantidade" name="quantidade">
             <input class="input" autocomplete="off" type="number" required min="0" step="0.01" placeholder="Valor" name="valor">
+            <select class="select" name="categoria">
+                <option selected="true" disabled="disabled" >Categoria</option>
+                <option value="Cama">Cama</option>
+                <option value="Mesa">Mesa</option>
+                <option value="Banho">Banho</option>
+                <option value="Plástico">Plástico</option>
+                <option value="Cozinha">Cozinha</option>
+            </select>
             <button class="button white" type="submit">Adicionar</button>
         </form>
     </div>
