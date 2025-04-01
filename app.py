@@ -1,12 +1,14 @@
-from flask import Flask, flash, render_template, redirect, request, session
+import os
+from dotenv import load_dotenv, dotenv_values
+from flask import Flask, flash, render_template, redirect, request
 import mysql.connector
 from helpers import validateInt, validateFloat, error
 
-
+load_dotenv()
 app = Flask(__name__)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-db = mysql.connector.connect(user= "root", password= "1234",
-                            host="localhost", database="estoquedaloja")
+app.secret_key = os.getenv("APP_SECRET_KEY")
+db = mysql.connector.connect(user= os.getenv("DB_USER"), password= os.getenv("DB_PASSWORD"),
+                            host=os.getenv("DB_HOST"), database=os.getenv("DB_SCHEMA"))
 cursor = db.cursor()
 
 
