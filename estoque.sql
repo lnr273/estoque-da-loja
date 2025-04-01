@@ -27,9 +27,10 @@ CREATE TABLE `produtos` (
   `nome` varchar(35) COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `quantidade` int unsigned NOT NULL,
   `valor` decimal(5,2) unsigned NOT NULL,
+  `categoria` enum('Cama','Mesa','Banho','Plástico','Cozinha') COLLATE utf8mb4_unicode_520_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nome` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +39,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
+INSERT INTO `produtos` VALUES (1,'Pote 100ml',100,4.00,'Plástico'),(2,'Kit c/ 5 Panelas',4,120.00,'Cozinha');
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-23 10:23:33
+-- Dump completed on 2025-03-30  9:46:23
