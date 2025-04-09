@@ -23,24 +23,6 @@ $ git clone https://github.com/lnr273/estoque-da-loja.git
 $ pip install -r dependencies.txt 
 ```
 
-- ### Importar Database
-1. No prompt de comando do seu OS, acesse a pasta dos executáveis do MySQL
-```
-$ cd C:\Program Files\MySQL\MySQL Server 8.0\bin
-```
-2. Conecte ao banco de dados e insira a senha
-```
-$ mysql -r {user} -p
-```
-3. Crie um novo schema
-```
-$ create schema {schema_novo};
-```
-4. Em outro prompt de comando, acesse novamente a pasta bin do MySQL e rode:
-```
-$ mysql -u {user} -p {novo_schema_criado} < {caminho_para_dump_do_repositório.sql}
-```
-
 ## Rodando 🤖
 Crie um arquivo `.env` e defina todas as variáveis globais como no exemplo dado em [.env.example](.env.example)
 
