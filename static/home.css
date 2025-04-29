@@ -1,7 +1,6 @@
 /*  table */
 .tableProdutos {
-    width: 100%;
-    max-width: 80%;
+    width: 80%;
     margin-block: 20px;
     margin-inline: auto;
     border-collapse: collapse;
@@ -25,14 +24,15 @@
 
 .tableProdutos th {
     background-color: #ccc;
-    height: 30px;
+    height: 40px;
     position: sticky;
     top: 0;
+    text-transform: uppercase;
 }
 
 /* modal */
 .modal {
-    width: 300px;
+    max-width: 300px;
     height: 200px;
     border-radius: 20px;
     margin: auto;
@@ -59,4 +59,10 @@
     padding: 10px 20px;
     margin: 20px 8px;
     cursor: pointer;
+}
+
+@media (max-width: 560px) {
+    .modal {
+        padding: 5px 5px;
+    }
 }
