@@ -13,9 +13,11 @@
 </head>
 <body>
     <header class="header">
-        <h1 class="headerTitle">Estoque da Loja</h1>
+        <a href="/" style="text-decoration: none; color: #fff;">
+            <span class="headerTitle">Estoque da Loja</span>
+        </a>
         
-        <section class="header2">
+        <nav class="header2">
             <a class="iconHeader" href="/">
                 <button>
                     <img src="/static/images/home.png" alt="icone de casa indicando a página principal">
@@ -32,7 +34,10 @@
                     <img src="static/images/search.png" alt="icone de lupa para pesquisar">
                 </button>
             </form>
-        </section>
+        </nav>
+        <div class="menuButton">
+            <img src="static/images/menu.png" alt="botão de menu" style="width: 30px;">
+        </div>
     </header>
 
     {% with messages = get_flashed_messages() %}
@@ -55,5 +60,6 @@
         Desenvolvido por Luan &copy; 2025
     </footer>
     <script src="static/deleteModal.js"></script>
+    <script src="static/menuSandwich.js"></script>
 </body>
 </html>
