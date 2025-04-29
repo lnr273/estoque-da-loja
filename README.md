@@ -12,7 +12,7 @@ Projeto full-stack feito para facilitar a contagem de produtos do estoque de uma
 - Construído com a tecnologia Jinja embutida ao Flask
 
 ### Backend
-- API contruída puramente com o framework Flask e para o banco de dados foi usado o framework mysql-connector para ligar ao servidor MySQL.
+- API contruída com o framework Flask e para o banco de dados foi usado o framework MySQLAlchemy para ligar a um servidor mysqlite.
 
 ## Instalação 🚀
 ```bash
@@ -24,8 +24,6 @@ $ pip install -r dependencies.txt
 ```
 
 ## Rodando 🤖
-Crie um arquivo `.env` e defina todas as variáveis globais como no exemplo dado em [.env.example](.env.example)
-
 No terminal do IDLE, rode:
 ```
 python app.py
