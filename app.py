@@ -1,14 +1,14 @@
 import os
 import datetime
-from dotenv import load_dotenv
 from flask import Flask, flash, render_template, redirect, request
-from sqlalchemy import MetaData, create_engine, Table, Column, Integer, String, Float, Enum, DateTime, insert, select, delete, update, desc, or_
+from sqlalchemy import MetaData, create_engine, Table, Column, Integer, String, Float, Enum, DateTime, insert, select, delete, update, desc, or_, and_
 from sqlalchemy.exc import SQLAlchemyError
 from helpers import validateInt, validateFloat, error
 
-load_dotenv()
+# VER MUDANÇAS FEITAS NO ARQUIVO DO PYTHOANYWHERE
+
 app = Flask(__name__)
-app.secret_key = os.getenv("APP_SECRET_KEY")
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 CATEGORIAS = [
     "Cama",
@@ -18,8 +18,11 @@ CATEGORIAS = [
     "Cozinha"
 ]
 
+# criando path
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+caminho_db = os.path.join(BASE_DIR, "estoque.db")
 # conectando com banco de dados
-engine = create_engine("sqlite:///estoque.db", echo=True)
+engine = create_engine(f"sqlite:///{caminho_db}", echo=True)
 db = MetaData()
 produtosDb = Table("produtos", db,
     Column("id", Integer, primary_key=True),
@@ -27,20 +30,20 @@ produtosDb = Table("produtos", db,
     Column("quantidade", Integer, nullable=False),
     Column("valor", Float, nullable=False),
     Column("categoria", Enum(*CATEGORIAS), nullable=False),
-    Column("last_update", DateTime, onupdate=datetime.datetime.now),
+    Column("last_update", DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now),
 )
 
 
 @app.route("/")
 def home():
     order = request.args.get("order") or "recente"
-    ordering = {"recente": produtosDb.c.last_update,
+    ordering = {"recente": desc(produtosDb.c.last_update),
                 "asc": produtosDb.c.valor, 
                 "desc": desc(produtosDb.c.valor),
                 "a-z": produtosDb.c.nome,
                 "z-a": desc(produtosDb.c.nome),
-                "more-quant": produtosDb.c.quantidade,
-                "less-quant": desc(produtosDb.c.quantidade)}
+                "more-quant": desc(produtosDb.c.quantidade),
+                "less-quant": produtosDb.c.quantidade}
     
     stmt = select(produtosDb).order_by(ordering[order])
     with engine.connect() as conn:
@@ -76,21 +79,19 @@ def add():
             "nome": nome.title(), 
             "quantidade": quantidade, 
             "valor": valor, 
-            "categoria": categoria
+            "categoria": categoria,
         }
 
         # verificar se item já existe
-        stmt1 = select(produtosDb)
+        stmt1 = select(produtosDb).where(produtosDb.c.nome == dadosNovoProduto["nome"])
         with engine.connect() as conn:
             try:
-                produtos = conn.execute(stmt1).fetchall()
+                copia = conn.execute(stmt1).fetchall()
             except:
-                return redirect("/")
+                return error("ERRO: Produtos não encontrados", 404)
             # loop nos produtos para achar cópia
-            for produto in produtos:
-                    if dadosNovoProduto["nome"] == produto[1]:
-                        flash(f'Erro: Produto com nome "{dadosNovoProduto["nome"]}" já existe')
-                        return redirect("/")
+            if copia:
+                return error(f'ERRO: Produto com nome "{dadosNovoProduto["nome"]}" já existe', 400)
 
         # inserir no banco de dados caso não exista
             stmt2 = insert(produtosDb).values(dadosNovoProduto)
@@ -98,9 +99,8 @@ def add():
                 conn.execute(stmt2)
                 conn.commit()
             except SQLAlchemyError as e:
-                flash(f"Ocorreu um erro ao adicionar produto: {e}")
-                return redirect("/")
-        
+                return error(f"ERRO: Não foi possível adicionar produto: {e}", 400)
+            
         # notificar sucesso e redirecionar para home
         flash("Produto adicionado com sucesso.")
         return redirect("/")
@@ -122,8 +122,7 @@ def delete():
             conn.execute(stmt)
             conn.commit()
         except SQLAlchemyError as e:
-            flash(f"Ocorreu um erro ao deletar produto: {e}")
-            return redirect("/")
+            return error(f"ERRO: Não foi possível deletar produto: {e}", 400)
 
     flash("Produto excluído com sucesso.")
     return redirect("/")
@@ -155,29 +154,29 @@ def edit():
         dadosProdutoEditado = {"nome": nome.title(), 
                                "quantidade": quantidade, 
                                "valor": valor, 
-                               "categoria": categoria, 
-                               "id": id}
-        # editando o banco de dados
+                               "categoria": categoria,}
 
-        stmt1 = select(produtosDb)
+        # editando o banco de dados
+        stmt1 = select(produtosDb).where(
+            and_(
+                    produtosDb.c.nome == dadosProdutoEditado["nome"],
+                    produtosDb.c.id != id
+                )
+        )
         with engine.connect() as conn:
             try:
-                produtos = conn.execute(stmt1).fetchall()
-            except:
-                return redirect("/")
-            for produto in produtos:
-                if dadosProdutoEditado["nome"] == produto[1]:
-                    flash(f'Erro: Produto com nome "{dadosProdutoEditado["nome"]}" já existe')
-                    return redirect("/")
-
-        # editar produto caso nome novo não exista no banco de dados
+                copia = conn.execute(stmt1).fetchone()
+            except SQLAlchemyError as e:
+                return error(f"ERRO: Não foi possível verificar a existência de cópia: {e}", 400)
+            if copia:
+                return error(f"ERRO: Produto com nome {dadosProdutoEditado["nome"]} já existe", 400)
+            
             stmt2 = update(produtosDb).where(produtosDb.c.id == id).values(dadosProdutoEditado)
             try:
                 conn.execute(stmt2)
                 conn.commit()
             except SQLAlchemyError as e:
-                flash(f"Ocorreu um erro ao editar produto: {e}")
-                return redirect("/")
+                return error(f"ERRO: Não foi possível editar produto: {e}", 400)
 
         flash("Produto editado com sucesso.")
         return redirect("/")
@@ -193,8 +192,7 @@ def edit():
             try:
                 produto = conn.execute(stmt).fetchone()
             except SQLAlchemyError as e:
-                flash(f"Ocorreu um erro ao buscar produto: {e}")
-                return redirect("/")
+                return error(f"ERRO: Não foi possível buscar produto: {e}", 400)
         return render_template("edit.html", produto=produto)
     
 
@@ -204,9 +202,9 @@ def search():
     if q:
         stmt = select(produtosDb).where(
             or_(
-                (produtosDb.c.id.like(q)),
-                (produtosDb.c.nome.like(q)),
-                (produtosDb.c.categoria.like(q))
+                (produtosDb.c.id.like("%"+ q +"%")),
+                (produtosDb.c.nome.like("%"+ q +"%")),
+                (produtosDb.c.categoria.like("%"+ q +"%"))
             )
         )
         with engine.connect() as conn:
