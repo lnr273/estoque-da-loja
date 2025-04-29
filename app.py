@@ -5,8 +5,6 @@ from sqlalchemy import MetaData, create_engine, Table, Column, Integer, String, 
 from sqlalchemy.exc import SQLAlchemyError
 from helpers import validateInt, validateFloat, error
 
-# VER MUDANÇAS FEITAS NO ARQUIVO DO PYTHOANYWHERE
-
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
