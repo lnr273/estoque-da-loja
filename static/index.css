@@ -8,6 +8,7 @@ html, body {
     vertical-align: baseline;
     height: 100%;
     width: 100%;
+    overflow: hidden;
 }
 
 /* header, main and footer */
@@ -49,14 +50,14 @@ html, body {
 
 /* form block */
 .formProduto {
-    width: 50%;
+    width: 100%;
     margin: auto;
     justify-content: center;
     align-items: center;
 }
 
 .formProduto form {
-    max-width: 600px;
+    width: 800px;
     height: 400px;
     border-radius: 20px;
     display: flex;
@@ -232,13 +233,4 @@ h1, h2 {
         visibility: visible;
     }
 
-    .input {
-        width: 200px;
-    }
-    .select {
-        width: 230px;
-    }
-    .button {
-        width: 226px;
-    }
 }
